@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function TeamSetup() {
+function TeamSetupComponent() {
   const searchParams = useSearchParams();
   const numTeams = parseInt(searchParams.get("numTeams") || "1", 10);
   const roundTime = parseInt(searchParams.get("roundTime") || "30", 10);
@@ -51,5 +51,13 @@ export default function TeamSetup() {
       ))}
       <button onClick={handleStartGame}>Start Game</button>
     </div>
+  );
+}
+
+export default function TeamSetup() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TeamSetupComponent />
+    </Suspense>
   );
 }
