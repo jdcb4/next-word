@@ -39,6 +39,9 @@ function GamePlayComponent() {
   useEffect(() => {
     if (timeLeft === 0) {
       router.push("/leaderboard");
+    } else if (timeLeft === 5) {
+      const beep = new Audio("/beep.mp3");
+      beep.play();
     }
   }, [timeLeft, router]);
 
