@@ -4,10 +4,19 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./GameSetup.module.css"; // Assuming you have a CSS module for styling
 
+const availableCategories = [
+  "Person",
+  "Place",
+  "Thing",
+  "Nature",
+  "Action",
+  "Random",
+];
+
 export default function GameSetup() {
   const [numTeams, setNumTeams] = useState(1);
   const [roundTime, setRoundTime] = useState(30);
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<string[]>(availableCategories);
   const [freeSkips, setFreeSkips] = useState(1);
   const router = useRouter();
 
@@ -36,8 +45,8 @@ export default function GameSetup() {
   };
 
   return (
-    <div>
-      <h1>Game Setup</h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Game Setup</h1>
       <div>
         <label>Number of Teams:</label>
         <div className={styles.bubbleContainer}>
@@ -73,19 +82,17 @@ export default function GameSetup() {
       <div>
         <label>Categories:</label>
         <div className={styles.categoryContainer}>
-          {["Person", "Place", "Thing", "Nature", "Action", "Random"].map(
-            (category) => (
-              <button
-                key={category}
-                className={`${styles.bubble} ${
-                  categories.includes(category) ? styles.selected : ""
-                }`}
-                onClick={() => handleCategoryChange(category)}
-              >
-                {category}
-              </button>
-            )
-          )}
+          {availableCategories.map((category) => (
+            <button
+              key={category}
+              className={`${styles.bubble} ${
+                categories.includes(category) ? styles.selected : ""
+              }`}
+              onClick={() => handleCategoryChange(category)}
+            >
+              {category}
+            </button>
+          ))}
         </div>
       </div>
       <div>
@@ -104,7 +111,9 @@ export default function GameSetup() {
           ))}
         </div>
       </div>
-      <button onClick={handleNext}>Next</button>
+      <button className={styles.nextButton} onClick={handleNext}>
+        Next
+      </button>
     </div>
   );
 }
