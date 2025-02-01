@@ -5,7 +5,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <nav>
+          <a href="/main-menu">Main Menu</a>
+        </nav>
+        {children}
+      </body>
     </html>
   );
 }

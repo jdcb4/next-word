@@ -1,3 +1,14 @@
-export default function Page() {
-  return <h1>Hello, Next.js!</h1>;
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push("/main-menu");
+  }, [router]);
+
+  return null;
 }
