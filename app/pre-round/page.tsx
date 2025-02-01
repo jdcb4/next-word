@@ -6,6 +6,9 @@ import { useState, useEffect } from "react";
 export default function PreRound() {
   const searchParams = useSearchParams();
   const teamIndex = parseInt(searchParams.get("teamIndex") || "0", 10);
+  const roundTime = parseInt(searchParams.get("roundTime") || "30", 10);
+  const categories = searchParams.get("categories") || "";
+  const freeSkips = parseInt(searchParams.get("freeSkips") || "1", 10);
   const [teamName, setTeamName] = useState("");
 
   useEffect(() => {
@@ -20,7 +23,9 @@ export default function PreRound() {
   const handleStartRound = () => {
     console.log("Starting round for:", teamName);
     // Navigate to the game play page or start the round
-    router.push("/game-play");
+    router.push(
+      `/game-play?teamIndex=${teamIndex}&roundTime=${roundTime}&categories=${categories}&freeSkips=${freeSkips}`
+    );
   };
 
   return (

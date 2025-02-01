@@ -24,7 +24,10 @@ export default function GameSetup() {
     console.log("Round Time:", roundTime);
     console.log("Categories:", categories);
     console.log("Number of Free Skips:", freeSkips);
-    router.push(`/team-setup?numTeams=${numTeams}`);
+    const selectedCategories = categories.join(",");
+    router.push(
+      `/team-setup?numTeams=${numTeams}&roundTime=${roundTime}&categories=${selectedCategories}&freeSkips=${freeSkips}`
+    );
   };
 
   return (
@@ -64,7 +67,7 @@ export default function GameSetup() {
       </div>
       <div>
         <label>Categories:</label>
-        <div className={styles.bubbleContainer}>
+        <div className={styles.categoryContainer}>
           {["Person", "Place", "Thing", "Nature", "Action", "Random"].map(
             (category) => (
               <button

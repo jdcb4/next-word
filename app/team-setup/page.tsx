@@ -6,6 +6,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 export default function TeamSetup() {
   const searchParams = useSearchParams();
   const numTeams = parseInt(searchParams.get("numTeams") || "1", 10);
+  const roundTime = parseInt(searchParams.get("roundTime") || "30", 10);
+  const categories = searchParams.get("categories")?.split(",") || [];
+  const freeSkips = parseInt(searchParams.get("freeSkips") || "1", 10);
   const [teams, setTeams] = useState<string[]>([]);
 
   useEffect(() => {
@@ -27,7 +30,10 @@ export default function TeamSetup() {
   const handleStartGame = () => {
     console.log("Teams:", teams);
     // Navigate to the PreRound page for the first team
-    router.push(`/pre-round?teamIndex=0`);
+    const selectedCategories = categories.join(",");
+    router.push(
+      `/pre-round?teamIndex=0&roundTime=${roundTime}&categories=${selectedCategories}&freeSkips=${freeSkips}`
+    );
   };
 
   return (
