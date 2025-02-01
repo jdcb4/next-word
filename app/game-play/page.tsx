@@ -62,11 +62,26 @@ function GamePlayComponent() {
     setCurrentWord(getRandomWord(currentCategory));
   };
 
+  const getTimerBackgroundColor = () => {
+    if (timeLeft > 20) {
+      return "green";
+    } else if (timeLeft > 5) {
+      return "orange";
+    } else {
+      return "red";
+    }
+  };
+
   return (
     <div>
       <h1>Game Play</h1>
       <div className={styles.infoBox}>
-        <span className={styles.boldBox}>Time Left: {timeLeft}s</span>
+        <span
+          className={styles.boldBox}
+          style={{ backgroundColor: getTimerBackgroundColor() }}
+        >
+          Time Left: {timeLeft}s
+        </span>
         <span className={styles.boldBox}>Category: {currentCategory}</span>
       </div>
       <div className={styles.wordBox}>
