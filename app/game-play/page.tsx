@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import wordsData from "../../data/words.json"; // Adjust the path if necessary
 
-export default function GamePlay() {
+function GamePlayComponent() {
   const searchParams = useSearchParams();
   const teamIndex = parseInt(searchParams.get("teamIndex") || "0", 10);
   const roundTime = parseInt(searchParams.get("roundTime") || "30", 10);
@@ -124,5 +124,13 @@ export default function GamePlay() {
         <h2>Score: {score}</h2>
       </div>
     </div>
+  );
+}
+
+export default function GamePlay() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <GamePlayComponent />
+    </Suspense>
   );
 }
