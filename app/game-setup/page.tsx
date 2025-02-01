@@ -20,6 +20,11 @@ export default function GameSetup() {
   };
 
   const handleNext = () => {
+    if (categories.length === 0) {
+      alert("Please select at least one category.");
+      return;
+    }
+
     console.log("Number of Teams:", numTeams);
     console.log("Round Time:", roundTime);
     console.log("Categories:", categories);

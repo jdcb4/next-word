@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import wordsData from "../../data/words.json"; // Adjust the path if necessary
 
 function GamePlayComponent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const teamIndex = parseInt(searchParams.get("teamIndex") || "0", 10);
   const roundTime = parseInt(searchParams.get("roundTime") || "30", 10);
   const categories = searchParams.get("categories")?.split(",") || [];
@@ -49,6 +50,12 @@ function GamePlayComponent() {
 
     return () => clearInterval(timer);
   }, []); // Empty dependency array to run only once on mount
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      router.push("/leaderboard");
+    }
+  }, [timeLeft, router]);
 
   const handleNextWord = () => {
     setCorrectWords([...correctWords, currentWord]);
