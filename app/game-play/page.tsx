@@ -14,6 +14,7 @@ function GamePlayComponent() {
   const freeSkips = parseInt(searchParams.get("freeSkips") || "1", 10);
   const initialCategory = searchParams.get("category") || "";
   const initialWord = searchParams.get("word") || "";
+  const teamName = searchParams.get("teamName") || "Unknown Team";
   const [timeLeft, setTimeLeft] = useState(roundTime);
   const [currentWord, setCurrentWord] = useState(initialWord);
   const [currentCategory, setCurrentCategory] = useState(initialCategory);
@@ -77,7 +78,7 @@ function GamePlayComponent() {
 
   return (
     <div>
-      <h1>Game Play</h1>
+      <h1>Game Play - {teamName}</h1>
       <div className={styles.infoBox}>
         <span
           className={styles.boldBox}

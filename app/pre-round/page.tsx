@@ -29,7 +29,7 @@ function PreRoundComponent() {
     router.push(
       `/game-play?teamIndex=${teamIndex}&roundTime=${roundTime}&categories=${categories.join(
         ","
-      )}&freeSkips=${freeSkips}&category=${randomCategory}&word=${randomWord}`
+      )}&freeSkips=${freeSkips}&category=${randomCategory}&word=${randomWord}&teamName=${teamName}`
     );
   };
 
