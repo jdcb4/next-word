@@ -2,7 +2,8 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import wordsData from "../../data/words.json"; // Adjust the path if necessary
+import styles from "./GamePlay.module.css"; // Assuming you have a CSS module for styling
+import { getRandomCategory, getRandomWord } from "./gameLogic";
 
 function GamePlayComponent() {
   const searchParams = useSearchParams();
@@ -11,33 +12,17 @@ function GamePlayComponent() {
   const roundTime = parseInt(searchParams.get("roundTime") || "30", 10);
   const categories = searchParams.get("categories")?.split(",") || [];
   const freeSkips = parseInt(searchParams.get("freeSkips") || "1", 10);
+  const initialCategory = searchParams.get("category") || "";
+  const initialWord = searchParams.get("word") || "";
   const [timeLeft, setTimeLeft] = useState(roundTime);
-  const [currentWord, setCurrentWord] = useState("");
-  const [currentCategory, setCurrentCategory] = useState("");
+  const [currentWord, setCurrentWord] = useState(initialWord);
+  const [currentCategory, setCurrentCategory] = useState(initialCategory);
   const [correctWords, setCorrectWords] = useState<string[]>([]);
   const [skippedWords, setSkippedWords] = useState<string[]>([]);
   const [score, setScore] = useState(0);
   const [skipsUsed, setSkipsUsed] = useState(0);
 
   useEffect(() => {
-    if (categories.length > 0) {
-      const randomCategory =
-        categories[Math.floor(Math.random() * categories.length)];
-      setCurrentCategory(randomCategory);
-
-      const wordsInCategory = wordsData.filter(
-        (word) => word.category === randomCategory
-      );
-      if (wordsInCategory.length > 0) {
-        const randomWord =
-          wordsInCategory[Math.floor(Math.random() * wordsInCategory.length)]
-            .word;
-        setCurrentWord(randomWord);
-      } else {
-        setCurrentWord("No words available");
-      }
-    }
-
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
@@ -49,7 +34,7 @@ function GamePlayComponent() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []); // Empty dependency array to run only once on mount
+  }, []);
 
   useEffect(() => {
     if (timeLeft === 0) {
@@ -74,61 +59,49 @@ function GamePlayComponent() {
   };
 
   const updateWord = () => {
-    const wordsInCategory = wordsData.filter(
-      (word) => word.category === currentCategory
-    );
-    if (wordsInCategory.length > 0) {
-      const randomWord =
-        wordsInCategory[Math.floor(Math.random() * wordsInCategory.length)]
-          .word;
-      setCurrentWord(randomWord);
-    } else {
-      setCurrentWord("No words available");
-    }
+    setCurrentWord(getRandomWord(currentCategory));
   };
 
   return (
     <div>
       <h1>Game Play</h1>
-      <div>
-        <h2>Time Left: {timeLeft}s</h2>
+      <div className={styles.infoBox}>
+        <span className={styles.boldBox}>Time Left: {timeLeft}s</span>
+        <span className={styles.boldBox}>Category: {currentCategory}</span>
       </div>
-      <div>
-        <h2>Category: {currentCategory}</h2>
-      </div>
-      <div>
+      <div className={styles.wordBox}>
         <h2>{currentWord}</h2>
       </div>
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th>Correct</th>
-              <th>Skipped</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                {correctWords.map((word, index) => (
-                  <div key={index}>{word}</div>
-                ))}
-              </td>
-              <td>
-                {skippedWords.map((word, index) => (
-                  <div key={index}>{word}</div>
-                ))}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div>
-        <button onClick={handleNextWord}>Next</button>
-        <button onClick={handleSkipWord}>Skip</button>
-      </div>
-      <div>
+      <div className={styles.scoreBox}>
         <h2>Score: {score}</h2>
+      </div>
+      <div className={styles.wordListContainer}>
+        <div className={styles.wordList}>
+          <h3>Correct</h3>
+          {correctWords.map((word, index) => (
+            <div key={index}>{word}</div>
+          ))}
+        </div>
+        <div className={styles.wordList}>
+          <h3>Skipped</h3>
+          {skippedWords.map((word, index) => (
+            <div key={index}>{word}</div>
+          ))}
+        </div>
+      </div>
+      <div className={styles.buttonContainer}>
+        <button
+          className={`${styles.button} ${styles.nextButton}`}
+          onClick={handleNextWord}
+        >
+          Next
+        </button>
+        <button
+          className={`${styles.button} ${styles.skipButton}`}
+          onClick={handleSkipWord}
+        >
+          Skip
+        </button>
       </div>
     </div>
   );

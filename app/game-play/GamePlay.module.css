@@ -1,0 +1,78 @@
+.infoBox {
+  display: flex;
+  justify-content: center;
+  gap: 10%;
+  margin-bottom: 20px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.boldBox {
+  font-weight: bold;
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.wordBox {
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  margin: 20px auto;
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.scoreBox {
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  margin: 20px auto;
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.wordListContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10%;
+  margin-bottom: 20px;
+}
+
+.wordList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+}
+
+.button {
+  width: 40%;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 3px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nextButton {
+  background-color: green;
+  color: white;
+}
+
+.skipButton {
+  background-color: orange;
+  color: white;
+}
