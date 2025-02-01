@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 
-export default function PreRound() {
+function PreRoundComponent() {
   const searchParams = useSearchParams();
   const teamIndex = parseInt(searchParams.get("teamIndex") || "0", 10);
   const roundTime = parseInt(searchParams.get("roundTime") || "30", 10);
@@ -34,5 +34,13 @@ export default function PreRound() {
       <p>Get ready, {teamName}!</p>
       <button onClick={handleStartRound}>Start Round</button>
     </div>
+  );
+}
+
+export default function PreRound() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PreRoundComponent />
+    </Suspense>
   );
 }
