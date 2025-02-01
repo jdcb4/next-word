@@ -1,0 +1,51 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align items to the top */
+  height: 100vh;
+  position: relative;
+  padding-top: 40px; /* Add padding to move content down slightly */
+}
+
+.title {
+  font-size: 48px;
+  font-weight: bold;
+  text-align: center;
+  border: 2px solid black;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+.startButton {
+  background-color: green;
+  color: white;
+  font-size: 24px;
+  padding: 20px 40px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.settingsIcon {
+  position: absolute;
+  bottom: 10%;
+  left: 10%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.instructionsIcon {
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}

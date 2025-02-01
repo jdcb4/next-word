@@ -1,0 +1,14 @@
+.container {
+  position: relative;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.closeIcon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}

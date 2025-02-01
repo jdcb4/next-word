@@ -1,20 +1,22 @@
+"use client";
+
 import Link from "next/link";
+import { FiSettings, FiInfo } from "react-icons/fi";
+import styles from "./MainMenu.module.css"; // Assuming you have a CSS module for styling
 
 export default function MainMenu() {
   return (
-    <div>
-      <h1>Main Menu</h1>
-      <ul>
-        <li>
-          <Link href="/game-setup">Start Game</Link>
-        </li>
-        <li>
-          <Link href="/settings">Settings</Link>
-        </li>
-        <li>
-          <Link href="/instructions">Instructions</Link>
-        </li>
-      </ul>
+    <div className={styles.container}>
+      <h1 className={styles.title}>NXT Word</h1>
+      <Link href="/game-setup">
+        <button className={styles.startButton}>Start Game</button>
+      </Link>
+      <Link href="/settings">
+        <FiSettings className={styles.settingsIcon} />
+      </Link>
+      <Link href="/instructions">
+        <FiInfo className={styles.instructionsIcon} />
+      </Link>
     </div>
   );
 }
