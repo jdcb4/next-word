@@ -1,15 +1,14 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useGame } from "../GameContext";
+import styles from "./TeamSetup.module.css"; // Assuming you have a CSS module for styling
 
-function TeamSetupComponent() {
-  const searchParams = useSearchParams();
-  const numTeams = parseInt(searchParams.get("numTeams") || "1", 10);
-  const roundTime = parseInt(searchParams.get("roundTime") || "30", 10);
-  const categories = searchParams.get("categories")?.split(",") || [];
-  const freeSkips = parseInt(searchParams.get("freeSkips") || "1", 10);
+export default function TeamSetup() {
+  const { numTeams, setTeamNames } = useGame();
   const [teams, setTeams] = useState<string[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const initialTeams = Array.from(
@@ -25,39 +24,29 @@ function TeamSetupComponent() {
     setTeams(newTeams);
   };
 
-  const router = useRouter();
-
   const handleStartGame = () => {
-    console.log("Teams:", teams);
-    // Navigate to the PreRound page for the first team
-    const selectedCategories = categories.join(",");
-    router.push(
-      `/pre-round?teamIndex=0&roundTime=${roundTime}&categories=${selectedCategories}&freeSkips=${freeSkips}`
-    );
+    setTeamNames(teams);
+    router.push("/pre-round");
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Team Setup</h1>
       {teams.map((team, index) => (
-        <div key={index}>
+        <div key={index} className={styles.teamInputContainer}>
+          <label htmlFor={`team-${index}`}>Team {index + 1}:</label>
           <input
+            id={`team-${index}`}
             type="text"
-            placeholder={`Team ${index + 1} Name`}
             value={team}
             onChange={(e) => updateTeamName(index, e.target.value)}
+            className={styles.teamInput}
           />
         </div>
       ))}
-      <button onClick={handleStartGame}>Start Game</button>
+      <button className={styles.startButton} onClick={handleStartGame}>
+        Start Game
+      </button>
     </div>
-  );
-}
-
-export default function TeamSetup() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <TeamSetupComponent />
-    </Suspense>
   );
 }

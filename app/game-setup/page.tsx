@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useGame } from "../GameContext";
 import styles from "./GameSetup.module.css"; // Assuming you have a CSS module for styling
 
 const availableCategories = [
@@ -18,6 +19,8 @@ export default function GameSetup() {
   const [roundTime, setRoundTime] = useState(30);
   const [categories, setCategories] = useState<string[]>(availableCategories);
   const [freeSkips, setFreeSkips] = useState(1);
+  const [numRounds, setNumRounds] = useState(3);
+  const { setGameSetup } = useGame();
   const router = useRouter();
 
   const handleCategoryChange = (category: string) => {
@@ -34,14 +37,8 @@ export default function GameSetup() {
       return;
     }
 
-    console.log("Number of Teams:", numTeams);
-    console.log("Round Time:", roundTime);
-    console.log("Categories:", categories);
-    console.log("Number of Free Skips:", freeSkips);
-    const selectedCategories = categories.join(",");
-    router.push(
-      `/team-setup?numTeams=${numTeams}&roundTime=${roundTime}&categories=${selectedCategories}&freeSkips=${freeSkips}`
-    );
+    setGameSetup(numTeams, roundTime, categories, freeSkips, numRounds);
+    router.push("/team-setup");
   };
 
   return (
@@ -66,7 +63,7 @@ export default function GameSetup() {
       <div>
         <label>Round Time:</label>
         <div className={styles.bubbleContainer}>
-          {[30, 45, 60].map((time) => (
+          {[5, 30, 45, 60].map((time) => (
             <button
               key={time}
               className={`${styles.bubble} ${
@@ -107,6 +104,22 @@ export default function GameSetup() {
               onClick={() => setFreeSkips(num)}
             >
               {num}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div>
+        <label>Number of Rounds:</label>
+        <div className={styles.bubbleContainer}>
+          {[3, 4, 5].map((round) => (
+            <button
+              key={round}
+              className={`${styles.bubble} ${
+                numRounds === round ? styles.selected : ""
+              }`}
+              onClick={() => setNumRounds(round)}
+            >
+              {round}
             </button>
           ))}
         </div>
