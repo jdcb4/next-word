@@ -26,7 +26,6 @@ function GamePlayComponent() {
     currentRound,
     numTeams,
     nextTeam,
-    incrementRoundIfNeeded,
   } = useGame();
   const teamName = teamNames[currentTeamIndex] || "Unknown Team";
   const [timeLeft, setTimeLeft] = useState(roundTime);
@@ -34,10 +33,6 @@ function GamePlayComponent() {
   const [currentCategoryState, setCurrentCategoryState] =
     useState(currentCategory);
   const [skipsUsed, setSkipsUsed] = useState(0);
-
-  useEffect(() => {
-    incrementRoundIfNeeded();
-  }, [incrementRoundIfNeeded]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -56,13 +51,12 @@ function GamePlayComponent() {
   useEffect(() => {
     if (timeLeft === 0) {
       updateTeamScore();
-      //nextTeam();
       router.push("/leaderboard");
     } else if (timeLeft === 5) {
       const beep = new Audio("/beep.mp3");
       beep.play();
     }
-  }, [timeLeft, router, updateTeamScore, nextTeam]);
+  }, [timeLeft, router, updateTeamScore]);
 
   const handleNextWord = () => {
     addCorrectWord(currentWordState);
@@ -93,7 +87,10 @@ function GamePlayComponent() {
 
   return (
     <div>
-      <h1>Game Play - {teamName}</h1>
+      <h1>
+        {" "}
+        Game Play - {teamName} (Rd: {currentRound})
+      </h1>
       <div className={styles.infoBox}>
         <span
           className={styles.boldBox}

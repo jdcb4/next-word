@@ -59,7 +59,13 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
   const [currentCategory, setCurrentCategory] = useState("");
   const [currentWord, setCurrentWord] = useState("");
   const [numRounds, setNumRounds] = useState(3);
-  const [currentRound, setCurrentRound] = useState(0);
+  const [currentRound, setCurrentRound] = useState(1);
+
+  const incrementRoundIfNeeded = useCallback(() => {
+    if (currentTeamIndex === numTeams - 1) {
+      setCurrentRound((prevRound) => prevRound + 1);
+    }
+  }, [currentTeamIndex, numTeams]);
 
   const addCorrectWord = (word: string) => {
     setCorrectWords((prev) => [...prev, word]);
@@ -83,11 +89,12 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     setCurrentTeamIndex((prev) => {
       const newIndex = prev + 1;
       if (newIndex >= numTeams) {
+        incrementRoundIfNeeded(); // Move this here
         return 0;
       }
       return newIndex;
     });
-  }, [currentTeamIndex, numTeams, score]);
+  }, [currentTeamIndex, numTeams, score, incrementRoundIfNeeded]);
 
   const resetGame = () => {
     setCorrectWords([]);
@@ -132,12 +139,6 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
       return newScores;
     });
   }, [currentTeamIndex, score]);
-
-  const incrementRoundIfNeeded = useCallback(() => {
-    if (currentTeamIndex === 0) {
-      setCurrentRound((prevRound) => prevRound + 1);
-    }
-  }, [currentTeamIndex]);
 
   return (
     <GameContext.Provider
