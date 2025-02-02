@@ -71,12 +71,6 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const nextTeam = useCallback(() => {
-    setTeamScores((prevScores) => {
-      const newScores = [...prevScores];
-      newScores[currentTeamIndex] += score;
-      return newScores;
-    });
-
     setCurrentRound((prevRound) => {
       const newRound = prevRound + 1;
       if (currentTeamIndex === numTeams - 1) {
