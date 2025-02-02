@@ -87,7 +87,7 @@ export default function Leaderboard() {
     <div className={styles.container}>
       <h1>Leaderboard</h1>
       <Bar data={data} options={options} />
-      {currentRound > numRounds && currentTeamIndex === numTeams - 1 ? (
+      {currentRound >= numRounds && currentTeamIndex === numTeams - 1 ? (
         <button className={styles.button} onClick={handleReturnToMainMenu}>
           Return to Main Menu
         </button>

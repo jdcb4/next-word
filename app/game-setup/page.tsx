@@ -37,8 +37,24 @@ export default function GameSetup() {
       return;
     }
 
+    console.log({
+      numTeams,
+      roundTime,
+      categories,
+      freeSkips,
+      numRounds,
+    });
+
     setGameSetup(numTeams, roundTime, categories, freeSkips, numRounds);
     router.push("/team-setup");
+
+    console.log({
+      numTeams,
+      roundTime,
+      categories,
+      freeSkips,
+      numRounds,
+    });
   };
 
   return (
