@@ -76,6 +76,15 @@ export default function Leaderboard() {
   const handleNextTeam = () => {
     nextTeam();
     router.push("/game-play");
+
+    console.log(
+      {
+        numTeams,
+        numRounds,
+        currentRound,
+      },
+      "Start of leaderboard"
+    );
   };
 
   const handleReturnToMainMenu = () => {

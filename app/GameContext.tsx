@@ -35,7 +35,6 @@ interface GameContextType {
   ) => void;
   setCurrentCategoryAndWord: (category: string, word: string) => void;
   updateTeamScore: () => void;
-  incrementRoundIfNeeded: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -61,12 +60,6 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
   const [numRounds, setNumRounds] = useState(3);
   const [currentRound, setCurrentRound] = useState(1);
 
-  const incrementRoundIfNeeded = useCallback(() => {
-    if (currentTeamIndex === numTeams - 1) {
-      setCurrentRound((prevRound) => prevRound + 1);
-    }
-  }, [currentTeamIndex, numTeams]);
-
   const addCorrectWord = (word: string) => {
     setCorrectWords((prev) => [...prev, word]);
     setScore((prev) => prev + 1);
@@ -78,23 +71,34 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const nextTeam = useCallback(() => {
-    setTeamScores((prev) => {
-      const newScores = [...prev];
+    setTeamScores((prevScores) => {
+      const newScores = [...prevScores];
       newScores[currentTeamIndex] += score;
       return newScores;
     });
+
+    setCurrentRound((prevRound) => {
+      const newRound = prevRound + 1;
+      if (currentTeamIndex === numTeams - 1) {
+        return newRound;
+      } else {
+        return prevRound;
+      }
+    });
+
+    setCurrentTeamIndex((prevIndex) => {
+      const newIndex = prevIndex + 1;
+      if (currentTeamIndex >= numTeams - 1) {
+        return 0;
+      } else {
+        return newIndex;
+      }
+    });
+
     setScore(0);
     setCorrectWords([]);
     setSkippedWords([]);
-    setCurrentTeamIndex((prev) => {
-      const newIndex = prev + 1;
-      if (newIndex >= numTeams) {
-        incrementRoundIfNeeded(); // Move this here
-        return 0;
-      }
-      return newIndex;
-    });
-  }, [currentTeamIndex, numTeams, score, incrementRoundIfNeeded]);
+  }, [currentTeamIndex, numTeams, score]);
 
   const resetGame = () => {
     setCorrectWords([]);
@@ -165,7 +169,6 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
         setGameSetup,
         setCurrentCategoryAndWord,
         updateTeamScore,
-        incrementRoundIfNeeded,
       }}
     >
       {children}

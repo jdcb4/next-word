@@ -25,7 +25,6 @@ function GamePlayComponent() {
     numRounds,
     currentRound,
     numTeams,
-    nextTeam,
   } = useGame();
   const teamName = teamNames[currentTeamIndex] || "Unknown Team";
   const [timeLeft, setTimeLeft] = useState(roundTime);
