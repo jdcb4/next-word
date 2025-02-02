@@ -61,7 +61,7 @@ export default function Leaderboard() {
         display: true,
         color: "black",
         font: {
-          weight: "bold",
+          //weight: "bold", // Use an allowed value
         },
         formatter: (value) => value,
       },
