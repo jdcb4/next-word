@@ -17,3 +17,8 @@
   margin-top: 20px;
   text-align: center;
 }
+
+.winnerBox {
+  border: 4px solid black;
+  background-color: yellow;
+}

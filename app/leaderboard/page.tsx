@@ -39,6 +39,31 @@ export default function Leaderboard() {
   } = useGame();
   const router = useRouter();
 
+  const isFinalTeam = currentTeamIndex === numTeams - 1;
+  const isFinalRound = currentRound >= numRounds;
+
+  const highestScore = Math.max(...teamScores);
+  const winningTeams = teamNames.filter(
+    (_, idx) => teamScores[idx] === highestScore
+  );
+  let winnerHeading = "";
+
+  if (winningTeams.length === 1) {
+    winnerHeading = `Congratulations ${winningTeams[0]} is the Winner`;
+  } else {
+    winnerHeading = `It's a draw! Congrats to teams ${winningTeams.join(", ")}`;
+  }
+
+  let leaderboardTitle = "";
+
+  if (!isFinalTeam) {
+    leaderboardTitle = `Leaderboard during Round ${currentRound}`;
+  } else if (!isFinalRound) {
+    leaderboardTitle = `Leaderboard end of Round ${currentRound}`;
+  } else {
+    leaderboardTitle = "Leaderboard - End of the game";
+  }
+
   const data = {
     labels: teamNames.slice(0, numTeams),
     datasets: [
@@ -94,7 +119,12 @@ export default function Leaderboard() {
 
   return (
     <div className={styles.container}>
-      <h1>Leaderboard</h1>
+      <h1>{leaderboardTitle}</h1>
+      {isFinalTeam && isFinalRound && (
+        <div className={styles.winnerBox}>
+          <h2>{winnerHeading}</h2>
+        </div>
+      )}
       <Bar data={data} options={options} />
       {currentRound >= numRounds && currentTeamIndex === numTeams - 1 ? (
         <button className={styles.button} onClick={handleReturnToMainMenu}>

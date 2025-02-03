@@ -59,6 +59,7 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
   const [currentWord, setCurrentWord] = useState("");
   const [numRounds, setNumRounds] = useState(3);
   const [currentRound, setCurrentRound] = useState(1);
+  const [skipsUsedCurrentTurn, setSkipsUsedCurrentTurn] = useState(0);
 
   const addCorrectWord = (word: string) => {
     setCorrectWords((prev) => [...prev, word]);
@@ -67,7 +68,10 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 
   const addSkippedWord = (word: string) => {
     setSkippedWords((prev) => [...prev, word]);
-    setScore((prev) => prev - 1);
+    if (skipsUsedCurrentTurn >= freeSkips) {
+      setScore((prev) => prev - 1);
+    }
+    setSkipsUsedCurrentTurn((prev) => prev + 1);
   };
 
   const nextTeam = useCallback(() => {
@@ -92,6 +96,7 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     setScore(0);
     setCorrectWords([]);
     setSkippedWords([]);
+    setSkipsUsedCurrentTurn(0);
   }, [currentTeamIndex, numTeams, score]);
 
   const resetGame = () => {
@@ -108,7 +113,7 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     setCurrentCategory("");
     setCurrentWord("");
     setNumRounds(3);
-    setCurrentRound(0);
+    setCurrentRound(1); // match initial useState
   };
 
   const setGameSetup = (
